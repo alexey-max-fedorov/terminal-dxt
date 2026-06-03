@@ -215,4 +215,31 @@ describe('runCommand', () => {
     // minimal keeps at most PATH, HOME, USER, SHELL, LANG, TERM (plus a couple shell-set ones).
     expect(count).toBeLessThan(15);
   });
+
+  it('handles a literal ${HOME} default (host did not substitute) by using the home directory', async () => {
+    process.env.TERMINAL_DEFAULT_CWD = '${HOME}';
+    const runCommand = await loadRunCommand();
+    const out = await runCommand({ command: 'pwd' });
+    expect(out.status).toBe('success');
+    if (out.status !== 'success') return;
+    expect(out.data.working_directory).toBe(path.resolve(os.homedir()));
+  });
+
+  it('falls back to homedir when the default cwd contains an unresolvable placeholder', async () => {
+    process.env.TERMINAL_DEFAULT_CWD = '${DEFINITELY_NOT_SET_XYZ_123}';
+    const runCommand = await loadRunCommand();
+    const out = await runCommand({ command: 'pwd' });
+    expect(out.status).toBe('success');
+    if (out.status !== 'success') return;
+    expect(out.data.working_directory).toBe(path.resolve(os.homedir()));
+  });
+
+  it('falls back to homedir when the default cwd points at a nonexistent directory', async () => {
+    process.env.TERMINAL_DEFAULT_CWD = '/no/such/default/dir/xyz123';
+    const runCommand = await loadRunCommand();
+    const out = await runCommand({ command: 'pwd' });
+    expect(out.status).toBe('success');
+    if (out.status !== 'success') return;
+    expect(out.data.working_directory).toBe(path.resolve(os.homedir()));
+  });
 });

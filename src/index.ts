@@ -14,7 +14,7 @@ function outcomeToMcp(outcome: ExecOutcome) {
 }
 
 async function main() {
-  const server = new Server({ name: 'terminal-dxt', version: '1.0.0' }, { capabilities: { tools: {} } });
+  const server = new Server({ name: 'terminal-dxt', version: '1.0.1' }, { capabilities: { tools: {} } });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tools: [{

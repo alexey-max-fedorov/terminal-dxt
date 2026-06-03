@@ -20,14 +20,28 @@ function expandHome(p: string): string {
   return p;
 }
 
+// Expand ${VAR} placeholders from the real environment. The MCP host substitutes
+// ${HOME} and friends in the main mcp_config, but not always in user_config defaults,
+// so a literal "${HOME}" can reach us here. An unset var expands to an empty string.
+function expandVars(p: string): string {
+  return p.replace(/\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g, (_m, name) => process.env[name] ?? '');
+}
+
 const DEFAULT_CWD = (() => {
-  const raw = process.env.TERMINAL_DEFAULT_CWD?.trim();
-  return raw ? path.resolve(expandHome(raw)) : os.homedir();
+  const raw = expandVars(process.env.TERMINAL_DEFAULT_CWD?.trim() ?? '');
+  // Empty, or a placeholder the host never resolved, means use the home directory.
+  if (!raw || raw.includes('${')) return os.homedir();
+  const resolved = path.resolve(expandHome(raw));
+  // Defensive: if the configured default is not a real directory, fall back to home.
+  try {
+    if (existsSync(resolved) && statSync(resolved).isDirectory()) return resolved;
+  } catch { /* fall through to home */ }
+  return os.homedir();
 })();
 
 const ALLOWED_ROOTS = (process.env.TERMINAL_ALLOWED_ROOTS || '')
   .split(':')
-  .map((s) => s.trim())
+  .map((s) => expandVars(s.trim()))
   .filter(Boolean)
   .map((p) => path.resolve(expandHome(p)));
 
