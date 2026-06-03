@@ -1,7 +1,7 @@
 {
   "manifest_version": "0.3",
   "name": "terminal-dxt",
-  "display_name": "Terminal",
+  "display_name": "Terminal DXT",
   "version": "1.0.0",
   "description": "Run a bash command in a working directory and get back stdout, stderr, and exit code. Local only, no credentials.",
   "long_description": "Terminal DXT gives Claude a single tool to execute bash commands on your Mac. Pass a command and an optional working directory; the extension runs it in a login shell, captures stdout and stderr, enforces a timeout, and returns the result. It runs entirely on your machine with your own user privileges. No network calls by the extension itself, no credentials, no telemetry.",
