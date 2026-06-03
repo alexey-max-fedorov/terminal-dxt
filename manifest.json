@@ -1,0 +1,112 @@
+{
+  "manifest_version": "0.3",
+  "name": "terminal-dxt",
+  "display_name": "Terminal",
+  "version": "1.0.0",
+  "description": "Run a bash command in a working directory and get back stdout, stderr, and exit code. Local only, no credentials.",
+  "long_description": "Terminal DXT gives Claude a single tool to execute bash commands on your Mac. Pass a command and an optional working directory; the extension runs it in a login shell, captures stdout and stderr, enforces a timeout, and returns the result. It runs entirely on your machine with your own user privileges. No network calls by the extension itself, no credentials, no telemetry.",
+  "author": {
+    "name": "Alexey Fedorov",
+    "email": "alexey.max.fedorov@gmail.com",
+    "url": "https://github.com/alexey-max-fedorov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexey-max-fedorov/terminal-dxt"
+  },
+  "homepage": "https://github.com/alexey-max-fedorov/terminal-dxt",
+  "documentation": "https://github.com/alexey-max-fedorov/terminal-dxt#readme",
+  "support": "https://github.com/alexey-max-fedorov/terminal-dxt/issues",
+  "icon": "icon.png",
+  "keywords": ["terminal", "bash", "shell", "command", "exec", "macos", "developer"],
+  "license": "LicenseRef-Terminal-DXT",
+  "server": {
+    "type": "node",
+    "entry_point": "server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/index.js"],
+      "env": {
+        "TERMINAL_DEFAULT_CWD": "${user_config.default_working_directory}",
+        "TERMINAL_ALLOWED_ROOTS": "${user_config.allowed_roots}",
+        "TERMINAL_DEFAULT_TIMEOUT_MS": "${user_config.default_timeout_ms}",
+        "TERMINAL_MAX_OUTPUT_BYTES": "${user_config.max_output_bytes}",
+        "TERMINAL_SHELL_PATH": "${user_config.shell_path}",
+        "TERMINAL_LOGIN_SHELL": "${user_config.login_shell}",
+        "TERMINAL_ENV_MODE": "${user_config.env_mode}",
+        "TERMINAL_AUDIT_LOG": "${user_config.audit_log_path}"
+      }
+    }
+  },
+  "user_config": {
+    "default_working_directory": {
+      "type": "directory",
+      "title": "Default working directory",
+      "description": "Used when a call does not specify working_directory. Defaults to your home directory.",
+      "required": false,
+      "default": "${HOME}"
+    },
+    "allowed_roots": {
+      "type": "string",
+      "title": "Allowed roots (colon-separated)",
+      "description": "Optional. If set, commands may only run inside these directory trees. Empty means unrestricted. Example: /Users/you/Projects:/Users/you/Sites",
+      "required": false,
+      "default": ""
+    },
+    "default_timeout_ms": {
+      "type": "number",
+      "title": "Default timeout (ms)",
+      "description": "How long a command may run before it is killed. Clamped to 100..600000.",
+      "required": false,
+      "default": 120000
+    },
+    "max_output_bytes": {
+      "type": "number",
+      "title": "Max captured output (bytes)",
+      "description": "Per-stream cap on captured stdout/stderr. Output beyond this is truncated (head + tail kept).",
+      "required": false,
+      "default": 1048576
+    },
+    "shell_path": {
+      "type": "string",
+      "title": "Shell path",
+      "description": "Shell used to run commands. Default /bin/bash. Set to a Homebrew bash or zsh if you prefer.",
+      "required": false,
+      "default": "/bin/bash"
+    },
+    "login_shell": {
+      "type": "boolean",
+      "title": "Use login shell",
+      "description": "Run as a login shell (bash -lc) so PATH and dev tooling load. Turn off for faster, cleaner startup.",
+      "required": false,
+      "default": true
+    },
+    "env_mode": {
+      "type": "string",
+      "title": "Environment mode",
+      "description": "full = pass the whole Claude Desktop environment to commands. minimal = pass only PATH, HOME, USER, SHELL, LANG, TERM.",
+      "required": false,
+      "default": "full"
+    },
+    "audit_log_path": {
+      "type": "string",
+      "title": "Audit log path",
+      "description": "Optional. If set, every command (timestamp, cwd, command) is appended to this file. Never written to stdout.",
+      "required": false,
+      "default": ""
+    }
+  },
+  "tools": [
+    {
+      "name": "run_command",
+      "description": "Execute a bash command in a working directory and return its stdout, stderr, and exit code."
+    }
+  ],
+  "compatibility": {
+    "claude_desktop": ">=1.0.0",
+    "platforms": ["darwin"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}
