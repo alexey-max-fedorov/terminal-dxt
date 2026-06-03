@@ -1,3 +1,5 @@
+export type { RunCommandArgs } from './schemas.js';
+
 export type ExecErrorCode =
   | 'invalid_input'
   | 'cwd_not_found'
