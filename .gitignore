@@ -1,0 +1,8 @@
+node_modules/
+node_modules.dev/
+server/
+*.mcpb
+.DS_Store
+*.log
+.vscode/
+.idea/

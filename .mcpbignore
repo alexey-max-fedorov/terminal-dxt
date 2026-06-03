@@ -1,0 +1,15 @@
+src/
+node_modules/.cache/
+node_modules.dev/
+*.log
+.DS_Store
+.git/
+.github/
+.vscode/
+.idea/
+tsconfig.json
+vitest.config.ts
+pnpm-lock.yaml
+docs/
+*.mcpb
+terminal-dxt-prd.md
