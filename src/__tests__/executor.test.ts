@@ -212,8 +212,8 @@ describe('runCommand', () => {
     expect(out.status).toBe('success');
     if (out.status !== 'success') return;
     const count = parseInt(out.data.stdout.trim(), 10);
-    // minimal keeps at most PATH, HOME, USER, SHELL, LANG, TERM (plus a couple shell-set ones).
-    expect(count).toBeLessThan(15);
+    // minimal keeps at most PATH, HOME, USER, SHELL, LANG, TERM (plus the vars zsh sets on login).
+    expect(count).toBeLessThan(20);
   });
 
   it('handles a literal ${HOME} default (host did not substitute) by using the home directory', async () => {

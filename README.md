@@ -1,6 +1,6 @@
 # Terminal DXT
 
-A Claude Desktop Extension that gives Claude one tool, `run_command`, to execute a bash command in a
+A Claude Desktop Extension that gives Claude one tool, `run_command`, to execute a zsh command in a
 working directory on your Mac and return stdout, stderr, exit code, and timing. It runs entirely on
 your machine with your own user privileges. The extension makes no network calls of its own, ships
 no credentials, and sends no telemetry.
@@ -21,8 +21,8 @@ no credentials, and sends no telemetry.
 | Allowed roots (colon-separated) | empty (unrestricted) | If set, commands may only run inside these trees. |
 | Default timeout (ms) | 120000 | How long a command may run before it is killed. Clamped 100..600000. |
 | Max captured output (bytes) | 1048576 | Per-stream cap. Output beyond this is truncated (head plus tail kept). |
-| Shell path | /bin/bash | Shell used to run commands. Point at a Homebrew bash/zsh if you prefer. |
-| Use login shell | on | Run as `bash -lc` so PATH and dev tooling load. |
+| Shell path | /bin/zsh | Shell used to run commands. Point at a Homebrew zsh/bash if you prefer. |
+| Use login shell | on | Run as `zsh -lc` so PATH and dev tooling load. |
 | Environment mode | full | `full` passes the whole environment; `minimal` passes only PATH, HOME, USER, SHELL, LANG, TERM. |
 | Audit log path | empty (off) | If set, every command (timestamp, cwd, command) is appended to this file. Never written to stdout. |
 
@@ -30,7 +30,7 @@ no credentials, and sends no telemetry.
 
 `run_command` takes:
 
-- `command` (required): the bash command line, e.g. `pnpm install && pnpm build`.
+- `command` (required): the zsh command line, e.g. `pnpm install && pnpm build`.
 - `working_directory` (optional): supports `~` expansion; relative paths resolve against the
   configured default.
 - `timeout_ms` (optional): override the default, clamped 100..600000.

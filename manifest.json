@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "terminal-dxt",
   "display_name": "Terminal DXT",
-  "version": "1.0.1",
-  "description": "Run a bash command in a working directory and get back stdout, stderr, and exit code. Local only, no credentials.",
-  "long_description": "Terminal DXT gives Claude a single tool to execute bash commands on your Mac. Pass a command and an optional working directory; the extension runs it in a login shell, captures stdout and stderr, enforces a timeout, and returns the result. It runs entirely on your machine with your own user privileges. No network calls by the extension itself, no credentials, no telemetry.",
+  "version": "1.1.0",
+  "description": "Run a zsh command in a working directory and get back stdout, stderr, and exit code. Local only, no credentials.",
+  "long_description": "Terminal DXT gives Claude a single tool to execute zsh commands on your Mac. Pass a command and an optional working directory; the extension runs it in a login shell, captures stdout and stderr, enforces a timeout, and returns the result. It runs entirely on your machine with your own user privileges. No network calls by the extension itself, no credentials, no telemetry.",
   "author": {
     "name": "Alexey Fedorov",
     "email": "alexey.max.fedorov@gmail.com",
@@ -20,7 +20,7 @@
   "icon": "icon.png",
   "keywords": [
     "terminal",
-    "bash",
+    "zsh",
     "shell",
     "command",
     "exec",
@@ -80,14 +80,14 @@
     "shell_path": {
       "type": "string",
       "title": "Shell path",
-      "description": "Shell used to run commands. Default /bin/bash. Set to a Homebrew bash or zsh if you prefer.",
+      "description": "Shell used to run commands. Default /bin/zsh. Set to a Homebrew zsh or bash if you prefer.",
       "required": false,
-      "default": "/bin/bash"
+      "default": "/bin/zsh"
     },
     "login_shell": {
       "type": "boolean",
       "title": "Use login shell",
-      "description": "Run as a login shell (bash -lc) so PATH and dev tooling load. Turn off for faster, cleaner startup.",
+      "description": "Run as a login shell (zsh -lc) so PATH and dev tooling load. Turn off for faster, cleaner startup.",
       "required": false,
       "default": true
     },
@@ -109,7 +109,7 @@
   "tools": [
     {
       "name": "run_command",
-      "description": "Execute a bash command in a working directory and return its stdout, stderr, and exit code."
+      "description": "Execute a zsh command in a working directory and return its stdout, stderr, and exit code."
     }
   ],
   "compatibility": {

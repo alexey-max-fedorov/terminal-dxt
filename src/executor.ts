@@ -9,7 +9,7 @@ import type { ExecOutcome, RunCommandPayload, RunCommandArgs } from './types.js'
 const clampTimeout = (n: number) => Math.max(100, Math.min(600_000, n));
 const DEFAULT_TIMEOUT_MS = clampTimeout(Number(process.env.TERMINAL_DEFAULT_TIMEOUT_MS) || 120_000);
 const MAX_OUTPUT_BYTES = Number(process.env.TERMINAL_MAX_OUTPUT_BYTES) || 1_048_576;
-const SHELL_PATH = process.env.TERMINAL_SHELL_PATH || '/bin/bash';
+const SHELL_PATH = process.env.TERMINAL_SHELL_PATH || '/bin/zsh';
 const LOGIN_SHELL = (process.env.TERMINAL_LOGIN_SHELL ?? 'true') !== 'false';
 const ENV_MODE = process.env.TERMINAL_ENV_MODE === 'minimal' ? 'minimal' : 'full';
 const AUDIT_LOG = process.env.TERMINAL_AUDIT_LOG || '';
