@@ -22,10 +22,11 @@ jobs:
 
       - uses: pnpm/action-setup@v6
 
+      - name: Install (sync lockfile state)
+        run: pnpm install --no-frozen-lockfile --ignore-scripts
+
       - name: Update dependencies in root
-        run: |
-          pnpm install --no-frozen-lockfile
-          pnpm update
+        run: pnpm update --latest
 
       - name: Commit and push
         run: |
